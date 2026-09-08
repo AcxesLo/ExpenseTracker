@@ -33,7 +33,6 @@ public class Main {
 
             // useless
             // might delete second constructor and find different solution
-            expensesList.add(new Expenses("Description", "   Amount"));
 
             if (splitInput[0].equalsIgnoreCase("expense-tracker")
                     && splitInput[1].equalsIgnoreCase("add")
