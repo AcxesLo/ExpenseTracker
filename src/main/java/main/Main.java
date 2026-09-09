@@ -1,12 +1,10 @@
 package main;
 
-import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class Main {
     public static String description;
@@ -20,7 +18,7 @@ public class Main {
         // - ID, Date, Description and Amount Strings must match with the actual values space wise at the list command
         /*
         in this format:
-        # ID  Date       Description  Amount
+        # ID  Date        Description  Amount
         # 1   2024-08-06  Lunch        $20
         # 2   2024-08-06  Dinner       $10
          */
@@ -86,8 +84,7 @@ public class Main {
                 }
             }
             if (splitInput[0].equalsIgnoreCase("expense-tracker")
-                    && splitInput[1].equalsIgnoreCase("summary")
-                    && !splitInput[2].equalsIgnoreCase("--month")) {
+                    && splitInput[1].equalsIgnoreCase("summary")) {
                 System.out.println("Total expenses: $" + Expenses.getSumAmount());
             }
             if (splitInput[0].equalsIgnoreCase("expense-tracker")
