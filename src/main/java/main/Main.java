@@ -1,5 +1,6 @@
 package main;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,9 +14,7 @@ public class Main {
     public static void main(String[] args) {
 
         //TODO
-        // - add Date
         // - ID, Date, Description and Amount Strings must match with the actual values space wise at the list command
-        // - summary --month {value}
         // - fix issue with having a too high int value
 
         Scanner scanner = new Scanner(System.in);
@@ -60,11 +59,10 @@ public class Main {
                 value = Integer.parseInt(splitInput[splitInput.length - 1]);
                 System.out.println("##output-value: " + value);
             }
-            if (splitInput[splitInput.length - 2].equalsIgnoreCase("--id")
+            if (splitInput[0].equalsIgnoreCase("expense-tracker")
+                    && splitInput[1].equalsIgnoreCase("delete")
+                    && splitInput[splitInput.length - 2].equalsIgnoreCase("--id")
                     && isNumeric(splitInput[splitInput.length - 1])) {
-//                List<Integer> ids = expensesList.parallelStream()
-//                        .map(Expenses::getExpenseID)
-//                        .collect(Collectors.toList());
                 int targetID = Integer.parseInt(splitInput[splitInput.length - 1]);
                 boolean removed = expensesList.removeIf(expense -> expense.getExpenseID() == targetID);
 
@@ -73,7 +71,6 @@ public class Main {
                 } else {
                     System.out.println("There is no entry with this ID");
                 }
-
             }
             if (splitInput[0].equalsIgnoreCase("expense-tracker") &&
                     splitInput[1].equalsIgnoreCase("list")) {
@@ -81,15 +78,28 @@ public class Main {
                     System.out.println(expenses);
                 }
             }
-            if (splitInput[0].equalsIgnoreCase("expense-tracker") &&
-                    splitInput[1].equalsIgnoreCase("summary")) {
+            if (splitInput[0].equalsIgnoreCase("expense-tracker")
+                    && splitInput[1].equalsIgnoreCase("summary")) {
                 System.out.println("Total expenses: $" + Expenses.getSumAmount());
             }
+            if (splitInput[0].equalsIgnoreCase("expense-tracker")
+                    && splitInput[1].equalsIgnoreCase("summary")
+                    && splitInput[splitInput.length - 2].equalsIgnoreCase("--id")
+                    && isNumeric(splitInput[splitInput.length - 1])) {
 
+                /*
+                regex
+                checks if the input matches the numbers 1-12
+                 */
+                if (splitInput[splitInput.length -1].matches("^(1[0-2]|[1-9])$")) {
+                expensesList.stream()
+                        .filter(expenses -> expenses.getLocalDate().getMonthValue() == Integer.parseInt(splitInput[splitInput.length - 1]))
+                        .toList()
+                        .forEach(expenses -> System.out.println(expenses.toString()));
+                }
 
+            }
         }
-
-
     }
 
     public static boolean isNumeric(String str) {
@@ -100,4 +110,5 @@ public class Main {
             return false;
         }
     }
+
 }

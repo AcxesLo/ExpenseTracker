@@ -27,6 +27,10 @@ public class Expenses {
                 + " Amount:$" + amount;
     }
 
+    public LocalDate getLocalDate() {
+        return localDate;
+    }
+
     public int getExpenseID() {
         return expenseID;
     }
