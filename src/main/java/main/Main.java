@@ -14,8 +14,14 @@ public class Main {
     public static void main(String[] args) {
 
         //TODO
-        // - ID, Date, Description and Amount Strings must match with the actual values space wise at the list command
         // - fix issue with having a too high int value
+        // - ID, Date, Description and Amount Strings must match with the actual values space wise at the list command
+        /*
+        in this format:
+        # ID  Date       Description  Amount
+        # 1   2024-08-06  Lunch        $20
+        # 2   2024-08-06  Dinner       $10
+         */
 
         Scanner scanner = new Scanner(System.in);
 
@@ -84,7 +90,8 @@ public class Main {
                 }
             }
             if (splitInput[0].equalsIgnoreCase("expense-tracker")
-                    && splitInput[1].equalsIgnoreCase("summary")) {
+                    && splitInput[1].equalsIgnoreCase("summary")
+                    && !splitInput[2].equalsIgnoreCase("--month")) {
                 System.out.println("Total expenses: $" + Expenses.getSumAmount());
             }
             if (splitInput[0].equalsIgnoreCase("expense-tracker")
@@ -101,13 +108,54 @@ public class Main {
                     switch (splitInput[splitInput.length - 1]) {
                         case "1":
                             System.out.println("Total expenses for January: ");
+                            break;
+                        case "2":
+                            System.out.println("Total expenses for February: ");
+                            break;
+                        case "3":
+                            System.out.println("Total expenses for March: ");
+                            break;
+                        case "4":
+                            System.out.println("Total expenses for April: ");
+                            break;
+                        case "5":
+                            System.out.println("Total expenses for May: ");
+                            break;
+                        case "6":
+                            System.out.println("Total expenses for June: ");
+                            break;
+                        case "7":
+                            System.out.println("Total expenses for July: ");
+                            break;
+                        case "8":
+                            System.out.println("Total expenses for August: ");
+                            break;
+                        case "9":
+                            System.out.println("Total expenses for September: ");
+                            break;
+                        case "10":
+                            System.out.println("Total expenses for October: ");
+                            break;
+                        case "11":
+                            System.out.println("Total expenses for November: ");
+                            break;
+                        case "12":
+                            System.out.println("Total expenses for December: ");
+                            break;
                     }
 
-                    expensesList.stream()
+                    List<Expenses> filtered = expensesList.stream()
                             .filter(expenses -> expenses.getLocalDate().getMonthValue()
                                     == Integer.parseInt(splitInput[splitInput.length - 1]))
-                            .toList()
-                            .forEach(expenses -> System.out.println(expenses.toString()));
+                            .toList();
+
+                    filtered.forEach(expenses -> System.out.println(expenses.toString()));
+
+                    int total = filtered.stream()
+                            .mapToInt(Expenses::getAmount)
+                            .sum();
+
+                    System.out.println("Total amount: $" + total);
 
 
                 }
