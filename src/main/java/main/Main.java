@@ -1,6 +1,8 @@
 package main;
 
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.TextStyle;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -64,12 +66,6 @@ public class Main {
                 expensesList.add(new Expenses(description, value));
             }
 
-            // works for now, should change it in the future
-//            if (splitInput[splitInput.length - 2].equalsIgnoreCase("--amount")
-//                    && isNumeric(splitInput[splitInput.length - 1])) {
-//                value = Integer.parseInt(splitInput[splitInput.length - 1]);
-//                System.out.println("##output-value: " + value);
-//            }
             if (splitInput[0].equalsIgnoreCase("expense-tracker")
                     && splitInput[1].equalsIgnoreCase("delete")
                     && splitInput[splitInput.length - 2].equalsIgnoreCase("--id")
@@ -105,44 +101,11 @@ public class Main {
                  */
                 if (splitInput[splitInput.length - 1].matches("^(1[0-2]|[1-9])$")) {
 
-                    switch (splitInput[splitInput.length - 1]) {
-                        case "1":
-                            System.out.println("Total expenses for January: ");
-                            break;
-                        case "2":
-                            System.out.println("Total expenses for February: ");
-                            break;
-                        case "3":
-                            System.out.println("Total expenses for March: ");
-                            break;
-                        case "4":
-                            System.out.println("Total expenses for April: ");
-                            break;
-                        case "5":
-                            System.out.println("Total expenses for May: ");
-                            break;
-                        case "6":
-                            System.out.println("Total expenses for June: ");
-                            break;
-                        case "7":
-                            System.out.println("Total expenses for July: ");
-                            break;
-                        case "8":
-                            System.out.println("Total expenses for August: ");
-                            break;
-                        case "9":
-                            System.out.println("Total expenses for September: ");
-                            break;
-                        case "10":
-                            System.out.println("Total expenses for October: ");
-                            break;
-                        case "11":
-                            System.out.println("Total expenses for November: ");
-                            break;
-                        case "12":
-                            System.out.println("Total expenses for December: ");
-                            break;
-                    }
+                    int monthValue = Integer.parseInt(splitInput[splitInput.length - 1]);
+                    Month month = Month.of(monthValue);
+                    String monthName = month.getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+
+                    System.out.println("Total expenses for " + monthName + ":");
 
                     List<Expenses> filtered = expensesList.stream()
                             .filter(expenses -> expenses.getLocalDate().getMonthValue()
@@ -156,8 +119,6 @@ public class Main {
                             .sum();
 
                     System.out.println("Total amount: $" + total);
-
-
                 }
 
             }
