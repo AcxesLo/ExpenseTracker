@@ -27,6 +27,10 @@ public class Expenses {
                 + " Amount:$" + amount;
     }
 
+    public int getExpenseID() {
+        return expenseID;
+    }
+
     public static int getSumAmount() {
         return sumAmount;
     }

@@ -1,11 +1,9 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Main {
     public static String description;
@@ -17,7 +15,6 @@ public class Main {
         //TODO
         // - add Date
         // - ID, Date, Description and Amount Strings must match with the actual values space wise at the list command
-        // - delete function
         // - summary --month {value}
         // - fix issue with having a too high int value
 
@@ -54,31 +51,53 @@ public class Main {
                     description = matcher.group(1);
                     System.out.println(description);
                 }
-
+                expensesList.add(new Expenses(description, value));
             }
 
             // works for now, should change it in the future
-            if (!(splitInput[splitInput.length - 1].equalsIgnoreCase("list")
-                    || splitInput[splitInput.length - 1].equalsIgnoreCase("summary"))) {
+            if (splitInput[splitInput.length - 2].equalsIgnoreCase("--amount")
+                    && isNumeric(splitInput[splitInput.length - 1])) {
                 value = Integer.parseInt(splitInput[splitInput.length - 1]);
                 System.out.println("##output-value: " + value);
+            }
+            if (splitInput[splitInput.length - 2].equalsIgnoreCase("--id")
+                    && isNumeric(splitInput[splitInput.length - 1])) {
+//                List<Integer> ids = expensesList.parallelStream()
+//                        .map(Expenses::getExpenseID)
+//                        .collect(Collectors.toList());
+                int targetID = Integer.parseInt(splitInput[splitInput.length - 1]);
+                boolean removed = expensesList.removeIf(expense -> expense.getExpenseID() == targetID);
 
-            } else {
-                if (splitInput[0].equalsIgnoreCase("expense-tracker") &&
-                        splitInput[1].equalsIgnoreCase("list")) {
-                    for (Expenses expenses : expensesList) {
-                        System.out.println(expenses);
-                    }
+                if (removed) {
+                    System.out.println("The expense entry has been removed.");
+                } else {
+                    System.out.println("There is no entry with this ID");
                 }
-                if (splitInput[0].equalsIgnoreCase("expense-tracker") &&
-                        splitInput[1].equalsIgnoreCase("summary")) {
-                    System.out.println("Total expenses: $" + Expenses.getSumAmount());
+
+            }
+            if (splitInput[0].equalsIgnoreCase("expense-tracker") &&
+                    splitInput[1].equalsIgnoreCase("list")) {
+                for (Expenses expenses : expensesList) {
+                    System.out.println(expenses);
                 }
             }
+            if (splitInput[0].equalsIgnoreCase("expense-tracker") &&
+                    splitInput[1].equalsIgnoreCase("summary")) {
+                System.out.println("Total expenses: $" + Expenses.getSumAmount());
+            }
 
-            expensesList.add(new Expenses(description, value));
 
         }
 
+
+    }
+
+    public static boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }
