@@ -19,7 +19,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        // expense-tracker add --description "hello world" --value 123123
+        // expense-tracker add --description "hello world" --amount 123123
 
         while (true) {
             String userInput = scanner.nextLine();
@@ -32,7 +32,12 @@ public class Main {
 
             if (splitInput[0].equalsIgnoreCase("expense-tracker")
                     && splitInput[1].equalsIgnoreCase("add")
-                    && splitInput[2].equalsIgnoreCase("--description")) {
+                    && splitInput[2].equalsIgnoreCase("--description")
+                    && splitInput[splitInput.length - 2].equalsIgnoreCase("--amount")
+                    && isNumeric(splitInput[splitInput.length - 1])) {
+
+                value = Integer.parseInt(splitInput[splitInput.length - 1]);
+                System.out.println("##output-value: " + value);
 
                 /*
                 regex
@@ -54,11 +59,11 @@ public class Main {
             }
 
             // works for now, should change it in the future
-            if (splitInput[splitInput.length - 2].equalsIgnoreCase("--amount")
-                    && isNumeric(splitInput[splitInput.length - 1])) {
-                value = Integer.parseInt(splitInput[splitInput.length - 1]);
-                System.out.println("##output-value: " + value);
-            }
+//            if (splitInput[splitInput.length - 2].equalsIgnoreCase("--amount")
+//                    && isNumeric(splitInput[splitInput.length - 1])) {
+//                value = Integer.parseInt(splitInput[splitInput.length - 1]);
+//                System.out.println("##output-value: " + value);
+//            }
             if (splitInput[0].equalsIgnoreCase("expense-tracker")
                     && splitInput[1].equalsIgnoreCase("delete")
                     && splitInput[splitInput.length - 2].equalsIgnoreCase("--id")
@@ -84,18 +89,27 @@ public class Main {
             }
             if (splitInput[0].equalsIgnoreCase("expense-tracker")
                     && splitInput[1].equalsIgnoreCase("summary")
-                    && splitInput[splitInput.length - 2].equalsIgnoreCase("--id")
+                    && splitInput[splitInput.length - 2].equalsIgnoreCase("--month")
                     && isNumeric(splitInput[splitInput.length - 1])) {
 
                 /*
                 regex
                 checks if the input matches the numbers 1-12
                  */
-                if (splitInput[splitInput.length -1].matches("^(1[0-2]|[1-9])$")) {
-                expensesList.stream()
-                        .filter(expenses -> expenses.getLocalDate().getMonthValue() == Integer.parseInt(splitInput[splitInput.length - 1]))
-                        .toList()
-                        .forEach(expenses -> System.out.println(expenses.toString()));
+                if (splitInput[splitInput.length - 1].matches("^(1[0-2]|[1-9])$")) {
+
+                    switch (splitInput[splitInput.length - 1]) {
+                        case "1":
+                            System.out.println("Total expenses for January: ");
+                    }
+
+                    expensesList.stream()
+                            .filter(expenses -> expenses.getLocalDate().getMonthValue()
+                                    == Integer.parseInt(splitInput[splitInput.length - 1]))
+                            .toList()
+                            .forEach(expenses -> System.out.println(expenses.toString()));
+
+
                 }
 
             }

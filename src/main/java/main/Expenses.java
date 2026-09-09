@@ -27,12 +27,16 @@ public class Expenses {
                 + " Amount:$" + amount;
     }
 
+    public int getAmount() {
+        return this.amount;
+    }
+
     public LocalDate getLocalDate() {
-        return localDate;
+        return this.localDate;
     }
 
     public int getExpenseID() {
-        return expenseID;
+        return this.expenseID;
     }
 
     public static int getSumAmount() {
