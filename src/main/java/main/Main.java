@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
 
         //TODO
-        // - add ID and Date
+        // - add Date
         // - ID, Date, Description and Amount Strings must match with the actual values space wise at the list command
         // - delete function
         // - summary --month {value}
@@ -38,11 +38,19 @@ public class Main {
                     && splitInput[1].equalsIgnoreCase("add")
                     && splitInput[2].equalsIgnoreCase("--description")) {
 
-
+                /*
+                regex
+                -- \" -> catches the first double quote -> "
+                -- ([^"]*) -> capturing a group that matches -> [^"]*,
+                zero or more characters that are not a double quote -> "
+                -- \" catches the closing double quote -> "
+                 */
                 Pattern pattern = Pattern.compile("\"([^\"]*)\"");
                 Matcher matcher = pattern.matcher(userInput);
 
                 if (matcher.find()) {
+                    // retrieves the text by the first parentheses group, the -> ([^"]*) part
+                    // group 0 would give me the string included with the double quotes
                     description = matcher.group(1);
                     System.out.println(description);
                 }
@@ -68,7 +76,7 @@ public class Main {
                 }
             }
 
-                expensesList.add(new Expenses(description, value));
+            expensesList.add(new Expenses(description, value));
 
         }
 
