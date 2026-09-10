@@ -27,6 +27,10 @@ public class Expenses {
                 + " Amount:$" + amount;
     }
 
+    public String getDescription() {
+        return this.description;
+    }
+
     public int getAmount() {
         return this.amount;
     }

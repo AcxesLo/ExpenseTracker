@@ -10,6 +10,8 @@ public class Main {
     public static String description;
     public static int value;
     public static List<Expenses> expensesList = new ArrayList<>();
+    public static int descriptionWidth;
+    public static String rowFormat;
 
     public static void main(String[] args) {
 
@@ -79,12 +81,36 @@ public class Main {
             }
             if (splitInput[0].equalsIgnoreCase("expense-tracker") &&
                     splitInput[1].equalsIgnoreCase("list")) {
+
+                // streams through the list to find the longest description
+                // converts stream from Stream<Expenses> into an IntStream
+                // from {"Lunch", "Dinner", "A longer description"} to ->  {5, 6, 20}
+                descriptionWidth = expensesList.stream()
+                        .mapToInt(e -> e.getDescription().length())
+                        .max()
+                        .orElse(0);
+
+                // guarantees the column is at least as wise as the header "Description"
+                descriptionWidth = Math.max(descriptionWidth, "Description".length());
+
+                //  - ID, Date (fixed) -> %-4s/%-12s left aligned, minimum width of 4 and 12
+                //  - Description -> based on the max length,
+                // value gotten from the stream (would be %-20s with the example above)
+                //  - Amount -> %s -> inserts the string as is, no padding %n -> new line
+                rowFormat = "%-4s %-12s %-" + (descriptionWidth + 2) + "s %s%n";
+
+                System.out.printf(rowFormat, "ID", "Date", "Description", "Amount");
+
                 for (Expenses expenses : expensesList) {
-                    System.out.println(expenses);
+                    System.out.printf(rowFormat
+                            , expenses.getExpenseID()
+                            , expenses.getLocalDate()
+                            , expenses.getDescription()
+                            , "$" + expenses.getAmount());
                 }
             }
             if (splitInput[0].equalsIgnoreCase("expense-tracker")
-                    && splitInput[1].equalsIgnoreCase("summary")) {
+                    && splitInput[splitInput.length - 1].equalsIgnoreCase("summary")) {
                 System.out.println("Total expenses: $" + Expenses.getSumAmount());
             }
             if (splitInput[0].equalsIgnoreCase("expense-tracker")
@@ -92,10 +118,7 @@ public class Main {
                     && splitInput[splitInput.length - 2].equalsIgnoreCase("--month")
                     && isNumeric(splitInput[splitInput.length - 1])) {
 
-                /*
-                regex
-                checks if the input matches the numbers 1-12
-                 */
+                // regex checks if the input matches the numbers 1-12
                 if (splitInput[splitInput.length - 1].matches("^(1[0-2]|[1-9])$")) {
 
                     int monthValue = Integer.parseInt(splitInput[splitInput.length - 1]);
@@ -104,12 +127,22 @@ public class Main {
 
                     System.out.println("Total expenses for " + monthName + ":");
 
+                    System.out.printf(rowFormat, "ID", "Date", "Description", "Amount");
+
                     List<Expenses> filtered = expensesList.stream()
                             .filter(expenses -> expenses.getLocalDate().getMonthValue()
                                     == Integer.parseInt(splitInput[splitInput.length - 1]))
                             .toList();
 
-                    filtered.forEach(expenses -> System.out.println(expenses.toString()));
+//                    filtered.forEach(expenses -> System.out.println(expenses.toString()));
+
+                    for (Expenses expenses : filtered) {
+                        System.out.printf(rowFormat
+                                , expenses.getExpenseID()
+                                , expenses.getLocalDate()
+                                , expenses.getDescription()
+                                , "$" + expenses.getAmount());
+                    }
 
                     int total = filtered.stream()
                             .mapToInt(Expenses::getAmount)
