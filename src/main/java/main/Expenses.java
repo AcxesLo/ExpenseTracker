@@ -46,4 +46,8 @@ public class Expenses {
     public static int getSumAmount() {
         return sumAmount;
     }
+
+    public static void subtractFromSum(int amount) {
+        sumAmount -= amount;
+    }
 }
