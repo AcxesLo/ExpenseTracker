@@ -1,4 +1,4 @@
-package main;
+package expense;
 
 import java.util.Scanner;
 
@@ -7,6 +7,7 @@ public class ExpensesService {
 
     public void executeTracker() {
         while (true) {
+            System.out.print(">");
 
             Scanner scanner = new Scanner(System.in);
             String userInput = scanner.nextLine();
@@ -15,6 +16,12 @@ public class ExpensesService {
             if (userInput.equalsIgnoreCase("exit")) {
                 break;
             }
+
+            if (splitInput[0].equalsIgnoreCase("expense-tracker")
+                    && splitInput[splitInput.length - 1].equalsIgnoreCase("--help")) {
+                expensesLogic.printCommands();
+            }
+
 
             if (splitInput[0].equalsIgnoreCase("expense-tracker")
                     && splitInput[1].equalsIgnoreCase("add")

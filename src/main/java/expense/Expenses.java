@@ -1,4 +1,4 @@
-package main;
+package expense;
 
 import java.time.LocalDate;
 import java.util.concurrent.atomic.AtomicInteger;

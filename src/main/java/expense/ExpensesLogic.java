@@ -1,4 +1,4 @@
-package main;
+package expense;
 
 import java.time.Month;
 import java.time.format.TextStyle;
@@ -131,6 +131,15 @@ public class ExpensesLogic {
 
     public void printHeader() {
         System.out.printf(rowFormat, "ID", "Date", "Description", "Amount");
+    }
+
+    public void printCommands() {
+        System.out.println("<Commands> \n"
+                + "expense-tracker add --description {argument} --amount {value}\n"
+        + "expense-tracker delete --id {value}\n"
+        + "expense-tracker list\n"
+        + "expense-tracker summary\n"
+        + "expense-tracker summary --month {value}");
     }
 
 }
