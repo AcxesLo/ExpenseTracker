@@ -10,7 +10,9 @@ import java.util.regex.Pattern;
 
 public class ExpensesLogic {
     private String description;
-    private final List<Expenses> expensesList = new ArrayList<>();
+
+
+    public static final List<Expenses> expensesList = new ArrayList<>();
     private String rowFormat;
 
     public void addFunction(String userInput, String[] splitInput) {
@@ -142,4 +144,7 @@ public class ExpensesLogic {
         + "expense-tracker summary --month {value}");
     }
 
+    public List<Expenses> getExpensesList() {
+        return expensesList;
+    }
 }

@@ -1,9 +1,12 @@
 package expense;
 
+import csv.CSVWriter;
+
 import java.util.Scanner;
 
 public class ExpensesService {
     private final ExpensesLogic expensesLogic = new ExpensesLogic();
+    private final CSVWriter csvWriter = new CSVWriter();
 
     public void executeTracker() {
         while (true) {
@@ -17,11 +20,14 @@ public class ExpensesService {
                 break;
             }
 
+            if (userInput.equalsIgnoreCase("write csv")) {
+                csvWriter.writeCSVFile();
+            }
+
             if (splitInput[0].equalsIgnoreCase("expense-tracker")
                     && splitInput[splitInput.length - 1].equalsIgnoreCase("--help")) {
                 expensesLogic.printCommands();
             }
-
 
             if (splitInput[0].equalsIgnoreCase("expense-tracker")
                     && splitInput[1].equalsIgnoreCase("add")
