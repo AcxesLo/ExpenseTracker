@@ -17,7 +17,6 @@ public class CSVWriter {
 //        "C:\\Users\\" + user + "\\Desktop\\expenses.csv"
         File file = new File("expenses.csv");
 
-
         try {
             if (file.createNewFile()) {
                 System.out.println("File created: " + file.getName());
@@ -44,7 +43,6 @@ public class CSVWriter {
                         expenses.getLocalDate(),
                         expenses.getDescription(),
                         expenses.getAmount());
-
             }
 
             System.out.println("Data has been written.");
